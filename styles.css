@@ -1,0 +1,59 @@
+/**
+ * Ropa bonita del programa (colores y formas).
+ * Explicación simple: este archivo solo cambia cómo se ve la pantalla. No guarda datos.
+ */
+:root {
+  --verde: #0e7c4b;
+  --verde-osc: #095c37;
+  --amarillo: #f5b301;
+  --rojo: #d64545;
+  --gris-fondo: #f2f5f3;
+  --texto: #1d2b23;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: Arial, Helvetica, sans-serif;
+  background: var(--gris-fondo); color: var(--texto);
+}
+header {
+  background: var(--verde); color: white; padding: 12px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+header h1 { margin: 0; font-size: 20px; }
+header small { display: block; font-weight: normal; font-size: 12px; opacity: .9; }
+.usuario-caja { display: flex; gap: 10px; align-items: center; }
+.usuario-caja img { width: 36px; height: 36px; border-radius: 50%; background: white; }
+main { max-width: 1100px; margin: 16px auto; padding: 0 14px 40px; }
+.tarjeta {
+  background: white; border-radius: 10px; padding: 16px; margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+}
+.oculto { display: none !important; }
+#pantalla-login { max-width: 560px; margin: 60px auto; text-align: center; }
+#pantalla-login .tarjeta { padding: 30px; }
+button {
+  background: var(--verde); color: white; border: none; border-radius: 8px;
+  padding: 10px 16px; cursor: pointer; font-size: 14px; margin: 4px 2px;
+}
+button:hover { background: var(--verde-osc); }
+button.secundario { background: #5b6b60; }
+button.peligro { background: var(--rojo); }
+input, select, textarea {
+  width: 100%; padding: 9px; margin: 5px 0 10px; border: 1px solid #bbb; border-radius: 7px;
+}
+label { font-weight: bold; font-size: 13px; }
+.fila { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 700px) { .fila { grid-template-columns: 1fr; } }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background: #e8f3ec; }
+.estado { padding: 3px 9px; border-radius: 20px; color: white; font-size: 12px; white-space: nowrap; }
+.vigente { background: var(--verde); }
+.por-vencer { background: var(--amarillo); color: #333; }
+.vencido { background: var(--rojo); }
+.alerta { border-left: 6px solid var(--rojo); background: #fff3f3; padding: 10px; margin: 8px 0; border-radius: 6px; }
+.aviso { border-left: 6px solid var(--amarillo); background: #fffbe6; padding: 10px; margin: 8px 0; border-radius: 6px; }
+.ok { border-left: 6px solid var(--verde); background: #eefaf2; padding: 10px; margin: 8px 0; border-radius: 6px; }
+nav.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+nav.tabs button.activo { background: #083d25; }
+.badge-super { background: gold; color: #333; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: bold; }

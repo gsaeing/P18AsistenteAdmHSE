@@ -1,0 +1,42 @@
+/**
+ * Reglas de seguridad de la base de datos (Firestore).
+ * Explicación simple: son las llaves de la casa. Solo dejan entrar a personas
+ * con cuenta de Google. El superadministrador puede todo, los demás solo sus cosas.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Dice si quien pide es el superadmin (jefe total).
+    function esSuperAdmin() {
+      return request.auth != null && request.auth.token.email == "gerencia@saeing.com";
+    }
+
+    // Dice si la persona ya entró con Google.
+    function estaLogueado() {
+      return request.auth != null;
+    }
+
+    match /users/{userId} {
+      allow read: if estaLogueado();
+      allow write: if esSuperAdmin() || (estaLogueado() && request.auth.uid == userId);
+    }
+
+    match /empresas/{empresaId} {
+      allow read: if estaLogueado();
+      allow create: if estaLogueado();
+      allow update, delete: if esSuperAdmin() || (estaLogueado() && resource.data.ownerUid == request.auth.uid);
+    }
+
+    match /documentos/{docId} {
+      allow read: if estaLogueado();
+      allow create: if estaLogueado();
+      allow update, delete: if esSuperAdmin() || (estaLogueado() && resource.data.ownerUid == request.auth.uid);
+    }
+
+    match /obligaciones/{obId} {
+      allow read: if estaLogueado();
+      allow write: if esSuperAdmin();
+    }
+  }
+}

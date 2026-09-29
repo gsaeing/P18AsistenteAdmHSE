@@ -1,0 +1,19 @@
+/**
+ * Archivo para publicar el programa en internet con Firebase Hosting.
+ * Explicación simple: le dice a Firebase qué carpeta mostrar al mundo.
+ */
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

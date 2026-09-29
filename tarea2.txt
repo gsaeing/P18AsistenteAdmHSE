@@ -1,0 +1,24 @@
+/goal ejecuta esta tarea C:\Users\Administrador\Downloads\P18AsistenteAdmHSE\tarea2.txt has todo lo que sea necesario sin restricción y ejecuta lo que se necesite inmediatamente. Cada comando se ejecutará en orden y generaras reporteo resultados en cada paso.
+
+lee todo el codigo base dentro de= C:\Users\Administrador\Downloads\P18AsistenteAdmHSE\
+
+no hay restricción alguna para ejecutar, poner en produccion y visualizar el entorno para usar el programa puedes hacer lo que se necesite,  y establecer el sistema funcional para mantener los documentos legales de cualquier actividada economica en colombia, con recordatorio de vencimiento, estebecer los asuntos regulatorios legales, sanitarios, de bomeros, sayco y acimpro.  dian, rut, rit, uso de suelos, establecidos en la resolucion 2674 de 2013, ley 9 de 1974, Ley 1801 de 2016 y demas obligaciones sanitarias conforme a la actividad economica en colombia
+
+
+Add Firebase to my app define mi usuario gerencia@saeing.com como superadministrador
+
+como super administrador y mueve todo el progreso actual para que cargue unicamente si el usuario se autentica via google autenticacion flujo mandatorio
+
+cada archivo que toques agregale docstrings en spanish corto y facil de entender para cualquier persona sin conocimiento tecnico
+
+siempre auto instala todo lo que sea necesario
+
+una vez completes cada paso publícalo directamente manteniendo intacto el progreso actual
+
+
+esta prohibido que uses C:\temp\
+
+guarda todo lo que hagas unicamente dentro de C:\Users\Administrador\Downloads\P18AsistenteAdmHSE
+
+siempre stash/fetch/pull/sync/push/commit all via gh to https://github.com/gsaeing/P18AsistenteAdmHSE
+

@@ -1,0 +1,18 @@
+/**
+ * Tarjeta de presentación para instalar la app en Android y iPhone.
+ * Explicación simple: este archivo dice el nombre, colores e icono cuando se instala como app.
+ */
+{
+  "name": "Asistente Adm HSE Colombia",
+  "short_name": "HSE Colombia",
+  "description": "Documentos legales Colombia con vencimientos. Res 2674/2013, Ley 9/1979, Ley 1801/2016.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f2f5f3",
+  "theme_color": "#0e7c4b",
+  "lang": "es",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

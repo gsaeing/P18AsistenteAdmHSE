@@ -1,0 +1,4 @@
+# Lista de archivos que Git no debe subir. Explicación simple: esconde llaves y temporales.
+node_modules/
+.env
+*.log

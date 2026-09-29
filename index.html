@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--
+  Pantalla principal del Asistente Adm HSE Colombia.
+  Explicación simple: esta es la casa del programa. Aquí usted entra con Google,
+  guarda empresas, sube papeles legales y ve avisos de vencimiento.
+  Nada se muestra sin entrar primero con su cuenta de Google.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asistente Adm HSE Colombia</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <!-- Explicación simple: estos renglones dejan instalar el programa como app en Android y iPhone y usarlo sin internet. -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#0e7c4b" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="HSE Colombia" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <link rel="icon" href="./icon-192.png" />
+</head>
+<body>
+  <header>
+    <h1>🇨🇴 Asistente Adm HSE <small>Documentos legales Colombia: DIAN, RUT, RIT, Bomberos, Sayco, Invima Res.2674/2013, Ley 9/1979, Ley 1801/2016</small></h1>
+    <div class="usuario-caja oculto" id="caja-usuario">
+      <img id="foto-usuario" alt="foto" />
+      <div><span id="nombre-usuario"></span><br /><span id="rol-usuario"></span></div>
+      <button id="btn-salir" class="secundario">Salir</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Paso 1: entrar con Google. Sin esto no se ve nada más. -->
+    <section id="pantalla-login">
+      <div class="tarjeta">
+        <h2>🔒 Entrada obligatoria con Google</h2>
+        <p>Por seguridad, <b>solo puede usar el programa si entra con su cuenta de Google</b>.</p>
+        <p>El jefe total es: <b>gerencia@saeing.com</b> (superadministrador).</p>
+        <button id="btn-google">Entrar con Google</button>
+        <br /><br />
+        <button id="btn-demo" class="secundario">Entrar en modo prueba (sin Firebase)</button>
+        <p id="mensaje-login" style="color:red"></p>
+        <details style="text-align:left;margin-top:12px">
+          <summary>¿Cómo conecto mi Firebase?</summary>
+          <ol style="font-size:13px">
+            <li>Vaya a console.firebase.google.com y cree un proyecto.</li>
+            <li>Active Authentication &gt; Google y Firestore.</li>
+            <li>Copie su llave web en el archivo <code>firebase-config.js</code>.</li>
+            <li>Agregue su dominio en Authentication &gt; Authorized domains.</li>
+          </ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- Paso 2: todo el programa, solo visible después de entrar. -->
+    <section id="pantalla-app" class="oculto">
+      <div id="avisos"></div>
+
+      <nav class="tabs">
+        <button data-tab="empresas" class="activo">🏢 Empresas</button>
+        <button data-tab="documentos">📄 Documentos</button>
+        <button data-tab="auditoria">🔍 Auditoría</button>
+        <button data-tab="obligaciones">⚖️ Obligaciones</button>
+        <button data-tab="carpeta">🗂️ Carpeta 1-31</button>
+        <button data-tab="ivc">🧾 Actas IVC</button>
+        <button data-tab="servicios">📲 Servicios</button>
+        <button data-tab="vencimientos">⏰ Vence 15 días</button>
+        <button data-tab="admin" id="tab-admin" class="oculto">👑 Superadmin</button>
+      </nav>
+
+      <!-- Empresas -->
+      <div class="tarjeta" id="tab-empresas">
+        <h3>Empresas o negocios</h3>
+        <p style="font-size:13px">Guarde cada sede o negocio con su actividad económica (CIIU). Según eso le diremos qué papeles pide la ley.</p>
+        <div class="fila">
+          <div><label>Nombre del negocio</label><input id="emp-nombre" placeholder="Ej: Panadería La 15" /></div>
+          <div><label>NIT</label><input id="emp-nit" placeholder="Ej: 900123456-7" /></div>
+        </div>
+        <div class="fila">
+          <div><label>Ciudad</label><input id="emp-ciudad" placeholder="Ej: Bogotá" /></div>
+          <div><label>Actividad económica (CIIU)</label>
+            <select id="emp-actividad">
+              <option value="alimentos">Alimentos y bebidas (Res. 2674/2013)</option>
+              <option value="comercio">Comercio / tienda</option>
+              <option value="industria">Industria / fábrica</option>
+              <option value="servicios">Servicios / oficina</option>
+              <option value="salud-belleza">Salud / belleza</option>
+              <option value="entretenimiento">Bares / eventos (Sayco)</option>
+            </select>
+          </div>
+        </div>
+        <button id="btn-guardar-empresa">Guardar empresa</button>
+        <table><thead><tr><th>Negocio</th><th>NIT</th><th>Ciudad</th><th>Actividad</th><th>Acción</th></tr></thead><tbody id="lista-empresas"></tbody></table>
+      </div>
+
+      <!-- Documentos -->
+      <div class="tarjeta oculto" id="tab-documentos">
+        <h3>Documentos legales (suba foto, PDF o Word)</h3>
+        <p style="font-size:13px">Explicación simple: por cada requisito legal suba la foto o el PDF. El programa avisa <b>15 días antes</b> y marca lo que falta.</p>
+        <div class="fila">
+          <div><label>Empresa (NIT / razón social)</label><select id="doc-empresa"></select></div>
+          <div><label>Tipo de papel (requisito 1-25)</label><select id="doc-tipo"></select></div>
+        </div>
+        <div class="fila">
+          <div><label>Número de radicado</label><input id="doc-numero" placeholder="Ej: 2024-001" /></div>
+          <div><label>Fecha de vencimiento</label><input id="doc-vence" type="date" /></div>
+        </div>
+        <label>Nota</label><input id="doc-nota" placeholder="Ej: Concepto sanitario de la Secretaría de Salud" />
+        <label>Archivo (imagen, PDF o Word)</label><input id="doc-archivo" type="file" accept="image/*,.pdf,.doc,.docx" />
+        <br />
+        <button id="btn-guardar-doc">Guardar documento</button>
+        <button id="btn-reporte" class="secundario">Descargar reporte CSV</button>
+        <button id="btn-word" class="secundario">Descargar plantilla Word del requisito</button>
+        <div style="margin-top:8px"><label>Buscar</label><input id="doc-buscar" placeholder="Escriba nombre, NIT o tipo..." /></div>
+        <table><thead><tr><th>Empresa</th><th>Papel</th><th>Vence</th><th>Faltan</th><th>Estado</th><th>Archivo</th><th>Acción</th></tr></thead><tbody id="lista-docs"></tbody></table>
+      </div>
+
+      <!-- Auditoría ponderada tipo IVC -->
+      <div class="tarjeta oculto" id="tab-auditoria">
+        <h3>🔍 Auditoría interna / externa por NIT y razón social</h3>
+        <p style="font-size:13px">Explicación simple: revise cada punto como lo hace Salud (Cumple / No cumple / No aplica). El programa pone nota de 0 a 100 y arma el informe PDF con firmas.</p>
+        <div class="fila">
+          <div><label>Empresa auditada</label><select id="aud-empresa"></select></div>
+          <div><label>Tipo de auditoría</label><select id="aud-tipo"><option value="interna">Interna (administrador)</option><option value="externa">Externa (equipo auditor)</option></select></div>
+        </div>
+        <div class="fila">
+          <div><label>Nombre del auditor</label><input id="aud-nombre" placeholder="Ej: Ing. María Pérez" /></div>
+          <div><label>Documento auditor</label><input id="aud-doc" placeholder="Ej: CC 123456" /></div>
+        </div>
+        <div class="fila">
+          <div><label>Nombre propietario / quien atiende</label><input id="aud-prop" placeholder="Ej: Carlos Ruiz" /></div>
+          <div><label>Acta base</label><select id="aud-acta"><option value="sq01">SQ01 químicos</option><option value="belleza">Belleza Res.2117</option><option value="colchones">SQ12 colchones</option></select></div>
+        </div>
+        <div id="lista-chequeo"></div>
+        <div class="fila">
+          <div><label>Firma auditor (dibuje con el dedo)</label><canvas id="firma-aud" width="300" height="120" style="border:1px solid #999;width:100%"></canvas><br /><button id="btn-borra-aud" class="secundario">Borrar firma</button></div>
+          <div><label>Firma propietario (dibuje con el dedo)</label><canvas id="firma-prop" width="300" height="120" style="border:1px solid #999;width:100%"></canvas><br /><button id="btn-borra-prop" class="secundario">Borrar firma</button></div>
+        </div>
+        <h4 id="nota-auditoria">Nota: 0%</h4>
+        <button id="btn-guardar-aud">Guardar auditoría</button>
+        <button id="btn-pdf-aud" class="secundario">Generar informe PDF con firmas</button>
+        <div id="lista-auds"></div>
+      </div>
+
+      <!-- Obligaciones -->
+      <div class="tarjeta oculto" id="tab-obligaciones">
+        <h3>Obligaciones que pide Colombia</h3>
+        <p style="font-size:13px">Lista automática según su actividad. Basada en: Resolución 2674/2013, Ley 9/1979, Ley 1801/2016, DIAN, Bomberos, Sayco-Acinpro.</p>
+        <div><label>Filtrar por actividad</label><select id="filtro-actividad">
+          <option value="todas">Ver todas</option>
+          <option value="alimentos">Alimentos</option>
+          <option value="comercio">Comercio</option>
+          <option value="industria">Industria</option>
+          <option value="servicios">Servicios</option>
+          <option value="salud-belleza">Salud/Belleza</option>
+          <option value="entretenimiento">Entretenimiento</option>
+        </select></div>
+        <table><thead><tr><th>Obligación</th><th>Quién la pide</th><th>Ley</th><th>Cada cuánto</th><th>Aplica a</th></tr></thead><tbody id="lista-obligaciones"></tbody></table>
+      </div>
+
+      <!-- Vencimientos -->
+      <div class="tarjeta oculto" id="tab-vencimientos">
+        <h3>Recordatorios: avisa 15 días antes</h3>
+        <p style="font-size:13px">Rojo = vencido o falta el papel. Amarillo = se vence en 15 días o menos. Verde = al día.</p>
+        <button id="btn-permiso" class="secundario">Activar avisos en pantalla</button>
+        <button id="btn-instalar" class="secundario">📲 Instalar app en el celular</button>
+        <div id="lista-vencimientos"></div>
+      </div>
+
+      <!-- Carpeta 1-31 de la foto -->
+      <div class="tarjeta oculto" id="tab-carpeta">
+        <h3>🗂️ Guía carpeta física 1-31 (foto del archivador)</h3>
+        <p style="font-size:13px">Respuesta a su foto: cada número, qué papel va, cada cuánto se vence y qué ley lo pide. Use el buscador.</p>
+        <div><label>Buscar carpeta</label><input id="carpeta-buscar" placeholder="Ej: bomberos, tanque, aceite..." /></div>
+        <table><thead><tr><th>#</th><th>Papel</th><th>Para qué sirve</th><th>Se vence</th><th>Ley</th></tr></thead><tbody id="lista-carpetas"></tbody></table>
+      </div>
+
+      <!-- Actas IVC SQ01 / Belleza / SQ12 -->
+      <div class="tarjeta oculto" id="tab-ivc">
+        <h3>🧾 Respuesta a instructivos SQ01, Belleza y SQ12</h3>
+        <p style="font-size:13px">Qué le revisa la Secretaría de Salud en cada visita y cómo llenar el acta sin errores (letra clara, sin borrones, todo con esfero negro).</p>
+        <div><label>Ver acta de:</label><select id="filtro-ivc">
+          <option value="sq01">SQ01 - Fábricas con químicos</option>
+          <option value="belleza">Belleza - Barberías y peluquerías (Res.2117/2010)</option>
+          <option value="colchones">SQ12 - Fábricas de colchones (Res.1842/2009)</option>
+        </select></div>
+        <div id="lista-ivc" style="font-size:14px"></div>
+        <div class="ok">Concepto final: <b>Favorable</b> (todo bien) · <b>Favorable con requerimientos</b> (le dan plazo en días) · <b>Desfavorable</b> (riesgo o no cumplió).</div>
+      </div>
+
+      <!-- Superadmin -->
+      <div class="tarjeta oculto" id="tab-admin">
+        <h3>👑 Panel superadministrador <span class="badge-super">gerencia@saeing.com</span></h3>
+        <p style="font-size:13px">Solo el correo jefe puede ver esto. Aquí ve todos los usuarios y todos los papeles.</p>
+        <div id="panel-admin"></div>
+      </div>
+
+      <!-- Servicios de capacitación -->
+      <div class="tarjeta oculto" id="tab-servicios">
+        <h3>📲 Pida sus capacitaciones y servicios</h3>
+        <p style="font-size:13px">Explicación simple: si necesita clases o certificados, pídalos por WhatsApp. Le atienden expertos.</p>
+        <div class="ok">📞 WhatsApp Business: <b>3008587973</b><br />🌐 <a href="https://saeing.com" target="_blank">saeing.com</a> · <a href="https://lottosst.com/" target="_blank">lottosst.com</a></div>
+        <div id="lista-servicios"></div>
+        <a href="https://wa.me/573008587973?text=Hola%2C%20necesito%20capacitaci%C3%B3n%20para%20mi%20negocio" target="_blank"><button>💬 Pedir por WhatsApp</button></a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+  <script>
+    // Explicación simple: registra el ayudante para usar sin internet e instalar como app.
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
+    let _pedido = null;
+    window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); _pedido = e; });
+    document.addEventListener('click', async (e) => {
+      if (e.target && e.target.id === 'btn-instalar') {
+        if (_pedido) { _pedido.prompt(); _pedido = null; }
+        else alert('En Android: menú ⋮ > Instalar app. En iPhone: Compartir > Añadir a pantalla de inicio.');
+      }
+    });
+  </script>
+</body>
+</html>

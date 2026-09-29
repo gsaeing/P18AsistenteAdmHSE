@@ -1,0 +1,9 @@
+/**
+ * Nombre del proyecto en Firebase.
+ * Explicación simple: cambie el nombre por el suyo cuando cree el proyecto.
+ */
+{
+  "projects": {
+    "default": "p18-asistente-hse"
+  }
+}

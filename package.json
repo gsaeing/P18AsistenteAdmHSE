@@ -1,0 +1,24 @@
+{
+  "_doc": "Explicacion simple: este archivo dice que herramientas necesita el programa y como encenderlo. No borre nada sin ayuda. Asistente Adm HSE Colombia.",
+  "name": "p18-asistente-adm-hse",
+  "version": "1.0.0",
+  "description": "Asistente para guardar documentos legales de empresas en Colombia con avisos de vencimiento. Ley 9 de 1979, Res 2674 de 2013, Ley 1801 de 2016.",
+  "type": "module",
+  "scripts": {
+    "dev": "http-server . -p 5173 -c-1 --cors",
+    "start": "http-server . -p 5173 -c-1 --cors",
+    "install-firebase": "npm install -g firebase-tools"
+  },
+  "dependencies": {
+    "firebase": "^10.12.5",
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "colombia",
+    "hse",
+    "documentos-legales",
+    "vencimientos",
+    "firebase"
+  ]
+}
