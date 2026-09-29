@@ -1,0 +1,116 @@
+{
+  "entities": {
+    "Empresa": {
+      "title": "Empresa",
+      "description": "Empresa o negocio registrado para control legal y documental",
+      "type": "object",
+      "properties": {
+        "nombre": { "type": "string", "description": "Razón social o nombre comercial" },
+        "nit": { "type": "string", "description": "Número de Identificación Tributaria" },
+        "ciudad": { "type": "string", "description": "Ciudad de ubicación" },
+        "actividad": { "type": "string", "description": "Actividad económica CIIU" },
+        "ownerUid": { "type": "string", "description": "UID del propietario del registro" },
+        "ownerEmail": { "type": "string", "description": "Email del propietario" },
+        "creado": { "type": "string", "description": "Fecha de registro ISO" }
+      },
+      "required": ["nombre", "nit", "actividad", "ownerUid", "ownerEmail"]
+    },
+    "Documento": {
+      "title": "Documento",
+      "description": "Documento legal o requisito de cumplimiento con fecha de vencimiento",
+      "type": "object",
+      "properties": {
+        "empresaId": { "type": "string", "description": "ID o clave de la empresa asociada" },
+        "empresaNombre": { "type": "string", "description": "Nombre de la empresa" },
+        "empresaNit": { "type": "string", "description": "NIT de la empresa" },
+        "tipo": { "type": "string", "description": "Tipo de requisito legal (carpeta 1-31)" },
+        "numero": { "type": "string", "description": "Número de radicado o identificación" },
+        "vence": { "type": "string", "description": "Fecha de vencimiento (AAAA-MM-DD)" },
+        "nota": { "type": "string", "description": "Notas u observaciones del requisito" },
+        "archivoNombre": { "type": "string", "description": "Nombre del archivo adjunto" },
+        "archivoTipo": { "type": "string", "description": "Tipo MIME del archivo" },
+        "ownerUid": { "type": "string", "description": "UID del usuario que sube el documento" },
+        "ownerEmail": { "type": "string", "description": "Email del usuario" },
+        "creado": { "type": "string", "description": "Fecha de subida ISO" }
+      },
+      "required": ["empresaId", "tipo", "vence", "ownerUid", "ownerEmail"]
+    },
+    "Auditoria": {
+      "title": "Auditoria",
+      "description": "Auditoría interna o externa tipo IVC higiénico-sanitaria",
+      "type": "object",
+      "properties": {
+        "empresaId": { "type": "string", "description": "ID de la empresa auditada" },
+        "empresaNombre": { "type": "string", "description": "Nombre de la empresa" },
+        "empresaNit": { "type": "string", "description": "NIT de la empresa" },
+        "tipo": { "type": "string", "description": "Tipo de auditoría (interna o externa)" },
+        "acta": { "type": "string", "description": "Acta base (sq01, belleza, colchones)" },
+        "auditor": { "type": "string", "description": "Nombre del auditor" },
+        "auditorDoc": { "type": "string", "description": "Documento del auditor" },
+        "propietario": { "type": "string", "description": "Nombre de quien atiende la auditoría" },
+        "nota": { "type": "number", "description": "Puntuación de 0 a 100" },
+        "concepto": { "type": "string", "description": "Concepto favorable, con requerimientos o desfavorable" },
+        "firmaAud": { "type": "string", "description": "DataURL de firma del auditor" },
+        "firmaProp": { "type": "string", "description": "DataURL de firma del propietario" },
+        "por": { "type": "string", "description": "Email del usuario que registró la auditoría" },
+        "fecha": { "type": "string", "description": "Fecha de registro ISO" }
+      },
+      "required": ["empresaId", "tipo", "acta", "nota", "concepto", "por"]
+    },
+    "Autorizacion": {
+      "title": "Autorizacion",
+      "description": "Autorización de ingreso gestionada por gerencia@saeing.com vinculando email y empresa",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Correo electrónico del usuario autorizado" },
+        "empresaId": { "type": "string", "description": "ID de la empresa/establecimiento asignado o 'todas'" },
+        "empresaNombre": { "type": "string", "description": "Nombre de la empresa o comercio asignado" },
+        "rol": { "type": "string", "description": "Rol de acceso (administrador_sede, auditor, consulta)" },
+        "activo": { "type": "boolean", "description": "Estado de la autorización" },
+        "creadoPor": { "type": "string", "description": "Email del superadministrador otorgante" },
+        "fecha": { "type": "string", "description": "Fecha de autorización ISO" }
+      },
+      "required": ["email", "empresaId", "rol", "activo", "creadoPor"]
+    },
+    "Notificacion": {
+      "title": "Notificacion",
+      "description": "Registro de alertas enviadas por correo electrónico para documentos a menos de 5 días de vencer",
+      "type": "object",
+      "properties": {
+        "documentoId": { "type": "string", "description": "ID del documento asociado" },
+        "empresaId": { "type": "string", "description": "ID de la empresa asociada" },
+        "empresaNombre": { "type": "string", "description": "Nombre de la empresa" },
+        "tipoDocumento": { "type": "string", "description": "Tipo de documento legal" },
+        "vence": { "type": "string", "description": "Fecha de vencimiento" },
+        "diasRestantes": { "type": "number", "description": "Días restantes al momento de notificar" },
+        "destinatario": { "type": "string", "description": "Correo electrónico destinatario" },
+        "asunto": { "type": "string", "description": "Asunto del correo electrónico" },
+        "fechaEnvio": { "type": "string", "description": "Fecha de envío ISO" },
+        "enviado": { "type": "boolean", "description": "Estado de entrega del correo" }
+      },
+      "required": ["documentoId", "empresaId", "tipoDocumento", "destinatario", "diasRestantes", "fechaEnvio"]
+    }
+  },
+  "firestore": {
+    "/empresas/{empresaId}": {
+      "schema": { "$ref": "#/entities/Empresa" },
+      "description": "Colección de empresas creadas por los usuarios"
+    },
+    "/documentos/{docId}": {
+      "schema": { "$ref": "#/entities/Documento" },
+      "description": "Colección de documentos legales y certificados con vencimiento"
+    },
+    "/auditorias/{audId}": {
+      "schema": { "$ref": "#/entities/Auditoria" },
+      "description": "Colección de auditorías técnicas e higiénico-sanitarias"
+    },
+    "/autorizaciones/{authId}": {
+      "schema": { "$ref": "#/entities/Autorizacion" },
+      "description": "Permisos y autorizaciones de acceso por email y empresa otorgados por gerencia@saeing.com"
+    },
+    "/notificaciones/{notifId}": {
+      "schema": { "$ref": "#/entities/Notificacion" },
+      "description": "Historial de correos y alertas de vencimiento emitidas a usuarios"
+    }
+  }
+}

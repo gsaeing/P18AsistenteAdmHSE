@@ -1,41 +1,67 @@
-/**
- * Reglas de seguridad de la base de datos (Firestore).
- * Explicación simple: son las llaves de la casa. Solo dejan entrar a personas
- * con cuenta de Google. El superadministrador puede todo, los demás solo sus cosas.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Dice si quien pide es el superadmin (jefe total).
-    function esSuperAdmin() {
-      return request.auth != null && request.auth.token.email == "gerencia@saeing.com";
-    }
-
-    // Dice si la persona ya entró con Google.
-    function estaLogueado() {
+    function isSignedIn() {
       return request.auth != null;
     }
 
+    function esSuperAdmin() {
+      return isSignedIn() && request.auth.token.email == "gerencia@saeing.com";
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
     match /users/{userId} {
-      allow read: if estaLogueado();
-      allow write: if esSuperAdmin() || (estaLogueado() && request.auth.uid == userId);
+      allow read: if isSignedIn();
+      allow write: if esSuperAdmin() || (isSignedIn() && request.auth.uid == userId);
     }
 
     match /empresas/{empresaId} {
-      allow read: if estaLogueado();
-      allow create: if estaLogueado();
-      allow update, delete: if esSuperAdmin() || (estaLogueado() && resource.data.ownerUid == request.auth.uid);
+      allow read: if isSignedIn() && (esSuperAdmin() || resource.data.ownerUid == request.auth.uid || resource.data.ownerEmail == request.auth.token.email);
+      allow create: if isSignedIn() && request.resource.data.ownerUid == request.auth.uid;
+      allow update: if isSignedIn() && (esSuperAdmin() || (resource.data.ownerUid == request.auth.uid && request.resource.data.ownerUid == request.auth.uid));
+      allow delete: if isSignedIn() && (esSuperAdmin() || resource.data.ownerUid == request.auth.uid);
     }
 
     match /documentos/{docId} {
-      allow read: if estaLogueado();
-      allow create: if estaLogueado();
-      allow update, delete: if esSuperAdmin() || (estaLogueado() && resource.data.ownerUid == request.auth.uid);
+      allow read: if isSignedIn() && (esSuperAdmin() || resource.data.ownerUid == request.auth.uid || resource.data.ownerEmail == request.auth.token.email);
+      allow create: if isSignedIn() && request.resource.data.ownerUid == request.auth.uid;
+      allow update: if isSignedIn() && (esSuperAdmin() || (resource.data.ownerUid == request.auth.uid && request.resource.data.ownerUid == request.auth.uid));
+      allow delete: if isSignedIn() && (esSuperAdmin() || resource.data.ownerUid == request.auth.uid);
+    }
+
+    match /auditorias/{audId} {
+      allow read: if isSignedIn() && (esSuperAdmin() || resource.data.por == request.auth.token.email);
+      allow create: if isSignedIn() && request.resource.data.por == request.auth.token.email;
+      allow update, delete: if isSignedIn() && (esSuperAdmin() || resource.data.por == request.auth.token.email);
+    }
+
+    match /autorizaciones/{authId} {
+      allow read: if isSignedIn() && (esSuperAdmin() || resource.data.email == request.auth.token.email);
+      allow write: if esSuperAdmin();
+    }
+
+    match /notificaciones/{notifId} {
+      allow read: if isSignedIn() && (esSuperAdmin() || resource.data.destinatario == request.auth.token.email);
+      allow create: if isSignedIn();
+      allow update, delete: if esSuperAdmin();
+    }
+
+    match /mail/{mailId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if esSuperAdmin();
     }
 
     match /obligaciones/{obId} {
-      allow read: if estaLogueado();
+      allow read: if isSignedIn();
       allow write: if esSuperAdmin();
     }
   }

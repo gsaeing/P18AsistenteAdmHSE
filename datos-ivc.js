@@ -68,3 +68,175 @@ export const IVC_COLCHONES = [
 
 /** Explicación simple: el PDF AS02C no tenía texto para leer; pida el acta física para cargarla. */
 export const NOTA_AS02C = "El archivo 'instructivo acta AS02C.pdf' llegó sin texto legible (escaneado). Suba el acta legible o dígame el tema y la sumo a esta guía.";
+
+/**
+ * Matriz Regulatoria Oficial de Autoridades de Inspección en Bogotá D.C.
+ * Explicación simple: Qué pide cada autoridad cuando llega a la puerta de su negocio en Bogotá,
+ * qué documento debe mostrar de inmediato y cómo defenderse legalmente.
+ */
+export const AUTORIDADES_BOGOTA = [
+  {
+    id: "salud",
+    autoridad: "Secretaría Distrital de Salud de Bogotá (Subredes Norte, Sur, Centro Oriente, Sur Occidente)",
+    sigla: "Salud Bogotá (IVC)",
+    icono: "🏛️",
+    color: "#0e7c4b",
+    alcance: "Inspección, Vigilancia y Control Sanitario (Actas Oficiales IVC)",
+    normasClave: "Ley 9 de 1979, Res. 2674 de 2013, Res. 1229 de 2013",
+    queExige: [
+      {
+        requisito: "Concepto Sanitario Vigente / Última Acta de Visita IVC",
+        norma: "Ley 9 de 1979 Art. 564, Res. 1229/2013",
+        documentoTipo: "5. Concepto Sanitario",
+        consejo: "Muestre de inmediato el acta anterior y evidencie que subsanó los requerimientos si los hubo.",
+        frecuencia: "Anual o por visita oficial"
+      },
+      {
+        requisito: "Plan de Saneamiento Básico Documentado (4 Programas con Formatos)",
+        norma: "Res. 2674/2013 Art. 26",
+        documentoTipo: "7. Procedimiento Limpieza y Desinfección",
+        consejo: "Debe exhibir los 4 programas: Limpieza y Desinfección, Residuos, Plagas y Calidad de Agua.",
+        frecuencia: "Permanente con registros diarios al día"
+      },
+      {
+        requisito: "Certificado de Control Integral de Plagas (Fumigación)",
+        norma: "Decreto 1843/1991",
+        documentoTipo: "23. Certificado Manejo Plagas (fumigación)",
+        consejo: "La empresa fumigadora debe tener Concepto Sanitario Favorable vigente de la Secretaría de Salud de Bogotá.",
+        frecuencia: "Cada 3 a 6 meses"
+      },
+      {
+        requisito: "Certificado de Lavado y Desinfección de Tanques de Agua Potable",
+        norma: "Decreto 1575/2007 Art. 10",
+        documentoTipo: "24. Certificado Lavado Tanque",
+        consejo: "Obligatorio cada 6 meses. Exija copia del concepto favorable de la empresa que realizó el lavado.",
+        frecuencia: "Semestral (cada 6 meses)"
+      },
+      {
+        requisito: "Certificados Médicos Ocupacionales y Pruebas de Laboratorio de Manipuladores",
+        norma: "Res. 2674/2013 Art. 11, 12 y 13",
+        documentoTipo: "12. Certificados médicos colaboradores",
+        consejo: "Deben incluir frotis faríngeo, KOH de uñas y coprológico con concepto de aptitud médica para manipular alimentos.",
+        frecuencia: "Anual o al contratar"
+      },
+      {
+        requisito: "Constancias de Capacitación en Manipulación de Alimentos y BPM",
+        norma: "Res. 2674/2013 Art. 13",
+        documentoTipo: "11. Programa Capacitación BPM y Alimentos",
+        consejo: "Plan anual de capacitación continuo (mínimo 10-60 horas) con listas de asistencia y certificados de los trabajadores.",
+        frecuencia: "Plan continuo anual"
+      }
+    ]
+  },
+  {
+    id: "bomberos",
+    autoridad: "Cuerpo Oficial de Bomberos de Bogotá D.C.",
+    sigla: "Bomberos Bogotá",
+    icono: "🚒",
+    color: "#b91c1c",
+    alcance: "Seguridad Humana, Protección Contra Incendios y Prevención",
+    normasClave: "Ley 1575 de 2012, Ley 1796 de 2016, Dec. 3888 de 2007",
+    queExige: [
+      {
+        requisito: "Concepto Técnico de Bomberos de Bogotá",
+        norma: "Ley 1575/2012 Art. 42",
+        documentoTipo: "4. Bomberos (concepto técnico)",
+        consejo: "Se tramita anualmente en bomberosbogota.gov.co. Si la visita está en trámite, muestre el radicado oficial.",
+        frecuencia: "Anual"
+      },
+      {
+        requisito: "Extintores de Incendio Recargados, Señalizados y Vigentes",
+        norma: "NTC 2885, NSR-10 Título J y K",
+        documentoTipo: "4. Bomberos (concepto técnico)",
+        consejo: "Altura máx. 1.50m al soporte, tipo Multipropósito ABC o Solkaflam, o Acetato de Potasio Tipo K para cocinas.",
+        frecuencia: "Revisión mensual, recarga anual"
+      },
+      {
+        requisito: "Botiquín de Primeros Auxilios Reglamentario para Bogotá",
+        norma: "Resolución 705 de 2007 de Bogotá D.C.",
+        documentoTipo: "15. SG-SST Sistema Salud y Trabajo",
+        consejo: "Verifique si corresponde Tipo A (<2000 m²), B o C con elementos sellados y sin caducidades vencidas.",
+        frecuencia: "Revisión trimestral"
+      },
+      {
+        requisito: "Plan de Emergencias y Contingencias con Brigada y Rutas",
+        norma: "Decreto 2157/2017, Dec. 1072/2015",
+        documentoTipo: "17. Plan Gestión Riesgo y Contingencia",
+        consejo: "Debe contar con plano de evacuación visible, rutas señalizadas, camilla rígida y brigadistas capacitados.",
+        frecuencia: "Anual con simulacro distrital"
+      }
+    ]
+  },
+  {
+    id: "policia",
+    autoridad: "Policía Nacional & Alcaldía Local de Bogotá (Ley 1801 de 2016)",
+    sigla: "Policía Ley 1801 / Inspección",
+    icono: "👮",
+    color: "#1d4ed8",
+    alcance: "Código Nacional de Seguridad y Convivencia Ciudadana",
+    normasClave: "Ley 1801 de 2016 Art. 87 (Requisitos de Apertura y Funcionamiento)",
+    queExige: [
+      {
+        requisito: "Matrícula Mercantil Vigente de Cámara de Comercio de Bogotá",
+        norma: "Ley 1801/2016 Art. 87 num. 1",
+        documentoTipo: "1. Cámara de Comercio",
+        consejo: "Debe renovarse antes del 31 de marzo de cada año. Tenga el certificado impreso o accesible en su celular.",
+        frecuencia: "Anual (antes del 31 de marzo)"
+      },
+      {
+        requisito: "Comunicación Previa de Apertura a la Alcaldía Local",
+        norma: "Ley 1801/2016 Art. 87 num. 2",
+        documentoTipo: "6. Apertura establecimiento / Ley 1801",
+        consejo: "Oficio o radicado virtual ante la Secretaría de Gobierno / Alcaldía Local antes de abrir el negocio.",
+        frecuencia: "Única vez al abrir o cambiar de sede"
+      },
+      {
+        requisito: "Concepto de Uso de Suelo Compatible en Bogotá",
+        norma: "POT Bogotá Dec. 555/2021, Ley 1801 Art. 87 num. 3",
+        documentoTipo: "3. Sayco-Acinpro + Uso de Suelo",
+        consejo: "Descargue el concepto en SINUPOT verificando que la actividad económica CIIU esté permitida en esa dirección.",
+        frecuencia: "Permanente mientras no cambie de sede"
+      },
+      {
+        requisito: "Comprobante de Pago Sayco-Acinpro o Carta de No Ejecución Musical",
+        norma: "Ley 23 de 1982, Ley 1801 Art. 87 num. 4",
+        documentoTipo: "3. Sayco-Acinpro + Uso de Suelo",
+        consejo: "Si no pone música comercial ni TV para clientes, mantenga la carta jurada de No Ejecución firmada a la mano.",
+        frecuencia: "Anual"
+      }
+    ]
+  },
+  {
+    id: "tributario_ambiental",
+    autoridad: "DIAN, Hacienda Distrital & Secretaría Distrital de Ambiente (SDA)",
+    sigla: "Tributario y Ambiental",
+    icono: "♻️",
+    color: "#047857",
+    alcance: "Obligaciones Tributarias y Ambientales en el Distrito Capital",
+    normasClave: "Estatuto Tributario, Res. 316/2018 (Aceite Cocina Usado), Dec. 1076/2015",
+    queExige: [
+      {
+        requisito: "Registro Único Tributario (RUT - DIAN)",
+        norma: "Estatuto Tributario Art. 555-2",
+        documentoTipo: "2. RUT / DIAN / RIT",
+        consejo: "Verifique que la dirección y el código CIIU coincidan exactamente con la Cámara de Comercio.",
+        frecuencia: "Actualizar si cambian datos"
+      },
+      {
+        requisito: "Registro de Información Tributaria de Bogotá (RIT - ICA)",
+        norma: "Acuerdo Distrital 65 de 2002",
+        documentoTipo: "2. RUT / DIAN / RIT",
+        consejo: "Demuestra la inscripción en el impuesto de Industria y Comercio ante la Secretaría de Hacienda de Bogotá.",
+        frecuencia: "Permanente"
+      },
+      {
+        requisito: "Certificado de Entrega de Aceite de Cocina Usado (ACU)",
+        norma: "Resolución 316 de 2018 MinAmbiente / SDA Bogotá",
+        documentoTipo: "25. Certificado Recolección Aceite Usado",
+        consejo: "Prohibido verter aceite al sifón. Exija el certificado con número de radicado del gestor ante la SDA.",
+        frecuencia: "Por cada recolección realizada"
+      }
+    ]
+  }
+];
+

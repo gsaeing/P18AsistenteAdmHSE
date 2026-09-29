@@ -1,7 +1,3 @@
-/**
- * Archivo para publicar el programa en internet con Firebase Hosting.
- * Explicación simple: le dice a Firebase qué carpeta mostrar al mundo.
- */
 {
   "hosting": {
     "public": ".",
@@ -15,5 +11,8 @@
   },
   "firestore": {
     "rules": "firestore.rules"
+  },
+  "functions": {
+    "source": "functions"
   }
 }
